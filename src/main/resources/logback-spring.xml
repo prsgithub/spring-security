@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	
+
+
+
+	<appender name="CONSOLE"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>UTF-8</charset>
+			<Pattern>%d %-4relative [%thread] %-5level %logger{35} - %msg%n
+			</Pattern>
+		</encoder>
+	</appender>
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logpath}wecanlogs.log</file>
+		<encoder
+			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				TIME- %d{dd-MM-yyyy HH:mm:ss.SSS}%n REQUEST DETAILS- %mdc%n MESSAGE-
+				%msg%n
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${logarchivedpath}loginfo.%d{dd-MM-yyyy}.%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>1GB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+	<!-- <appender name="EMAIL"
+		class="ch.qos.logback.classic.net.SMTPAppender">
+		<smtpHost>smtp.gmail.com</smtpHost>
+		<STARTTLS>true</STARTTLS>
+		<smtpPort>587</smtpPort>
+
+		<from>techsupport@sdrc.co.in</from>
+		<username>techsupport@sdrc.co.in</username>
+		<password>pass@123</password>
+
+		<to>${mailtouser1}</to>
+		<to>${mailtouser2}</to>
+
+		<subject>Exception Occurred in WeCan : %logger{20} </subject>
+		<layout class="ch.qos.logback.classic.html.HTMLLayout" />
+		send just one log entry per email
+		<cyclicBufferTracker
+			class="ch.qos.logback.core.spi.CyclicBufferTracker">
+			<bufferSize>1</bufferSize>
+		</cyclicBufferTracker>
+		send only errror log entry to email
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>error</level>
+		</filter>
+	</appender> -->
+	<!-- Appender to log to file in a JSON format -->
+	<!-- <appender name="amqp"
+		class="org.springframework.amqp.rabbit.logback.AmqpAppender">
+		<host>localhost</host>
+		<port>5672</port>
+		<virtualHost>/</virtualHost>
+		<username>guest</username>
+		<password>guest</password>
+		<param name="virtualHost" value="/" />
+		<exchangeType>topic</exchangeType>
+		<exchangeName>wecanlogexchange</exchangeName>
+		<applicationId>NutritionPatner</applicationId>
+		<routingKeyPattern>logs.elk</routingKeyPattern>
+		<contentType>application/json</contentType>
+		<maxSenderRetries>2</maxSenderRetries>
+		<charset>UTF-8</charset>
+		<layout class="ch.qos.logback.classic.html.HTMLLayout" />
+		<layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+			<jsonFormatter
+				class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+				<prettyPrint>true</prettyPrint>
+			</jsonFormatter>
+			<timestampFormat>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampFormat>
+		</layout>
+	</appender> -->
+
+
+	<logger name="org.springframework" level="error"	additivity="false">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</logger>
+	<logger name="org.springframework.amqp" level="error"	additivity="false">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</logger>
+	<logger name="org.hibernate" level="error" additivity="false">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</logger>
+	<logger name="org.apache" level="error" additivity="false">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</logger>
+	<logger name="com.mysql" level="error" additivity="false">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</logger>
+	<logger name="com.sdrc" level="info" additivity="false">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</logger>
+	<root level="error">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</root>
+
+</configuration>
+
